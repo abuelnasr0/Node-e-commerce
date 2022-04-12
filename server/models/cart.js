@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const { required } = require('nodemon/lib/config');
+// const { required } = require('nodemon/lib/config');
 const Schema = mongoose.Schema
-const CartItemSchema = require('./cartItem').schema
+const CartItem = require('./cartItem')
 const CartSchema = new Schema(
     {
-        products: [CartItemSchema],
+        products: [CartItem.schema],
         user: {
             type: Schema.Types.ObjectId,
             ref: 'user',
@@ -14,5 +14,5 @@ const CartSchema = new Schema(
     },
     { timestamps: true }
 );
-
-module.exports = mongoose.model('cart', CartSchema);
+const Cart = mongoose.model('Cart',CartSchema)
+module.exports = {Cart, CartItem};

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const addressSchema = require('./address').schema
 const { isEmail } = require('validator');
 const userSchema = new Schema(
     {
@@ -30,7 +31,8 @@ const userSchema = new Schema(
             type: String,
             required: [true, 'Please enter a valid password'],
             minlength: [6, 'Minimum password length must be 6 characters']
-        }
+        },
+        address : [addressSchema]
     },
     { timestamps: true }
 );
