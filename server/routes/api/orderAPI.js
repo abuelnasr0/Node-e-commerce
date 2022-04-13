@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
 const Orders = require('../../models/order.js');
-
 
 // list all orders of the user with id ......
 router.get('/userorders/:userid' , async (request , responce) => {

@@ -72,18 +72,27 @@ router.put('/add/:id' , async (request,responce) => {
             totalprice : request.body.totalprice,
             status : request.body.status
         })
-        console.log(newItem)
         const updated = await Cart.updateOne(
             {_id : request.params.id},
              { $push: {
                 products : newItem}});
-        console.log(updated)
         responce.status(201).json(updated)
     }catch(err){
         responce.status(500).json({Message:`There was an ERROR Adding the item`,Error:err});
     }
 })
 
+router.put('/delete/:cartid/:productid' , async (request,responce) => {
+    try{
+        const updated = await Cart.updateOne(
+            {_id : request.params.cartid},
+             { $pull: {
+                products : {product : request.params.productid}}});
+        responce.status(201).json({success : true, Data : updated})
+    }catch(err){
+        responce.status(500).json({Message:`There was an ERROR Adding the item`,Error:err});
+    }
+})
 router.delete('/:id', async (request,responce) => {
     try{
         const deleted = await Cart.deleteOne({_id : request.body.id})

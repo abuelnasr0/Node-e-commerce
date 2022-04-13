@@ -3,7 +3,6 @@ const router = express.Router();
 const Products = require('../../models/product.js');
 
 
-
 router.get("/list", async (request,responce) => {
     try{
         const productList = await Products.find()
@@ -68,6 +67,5 @@ router.delete('/delete/:id', async (request,responce) => {
         responce.status(500).json({Message: "The product hasn't been deleted",Error: err})
     }
 })
-
 
 module.exports = router
