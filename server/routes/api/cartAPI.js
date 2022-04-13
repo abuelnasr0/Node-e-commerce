@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {Cart,CartItem} = require('../../models/cart.js');
 
-router.use(express.json())
 
 router.get('/listcarts', async (requset, responce) => {
     try{

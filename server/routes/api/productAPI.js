@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Products = require('../../models/product.js');
 
-router.use(express.json())
 
 
 router.get("/list", async (request,responce) => {

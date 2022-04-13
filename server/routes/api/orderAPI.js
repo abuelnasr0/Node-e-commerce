@@ -3,7 +3,6 @@ const router = express.Router();
 
 const Orders = require('../../models/order.js');
 
-router.use(express.json())
 
 // list all orders of the user with id ......
 router.get('/userorders/:userid' , async (request , responce) => {
