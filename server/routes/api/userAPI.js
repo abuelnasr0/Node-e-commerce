@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../../models/user.js');
 
-router.use(express.json())
+// router.use(express.json())
 
 // get all users
 router.get('/list' , async (request , responce) => {
@@ -35,6 +35,7 @@ router.post('/create' , async(request,responce) => {
             PhoneNumber: request.body.PhoneNumber,
             isAdmin : request.body.isAdmin,
             password : request.body.password,
+            address : [request.body.address1,request.body.address2]
         }
         const newUser = new Users(item);
         await newUser.save()
@@ -45,7 +46,7 @@ router.post('/create' , async(request,responce) => {
 
 })
 
-
+// working on 
 router.put('/update/:id' , async (request,responce) => {
     try{
         const updated = await Users.updateOne(
@@ -56,8 +57,11 @@ router.put('/update/:id' , async (request,responce) => {
                 lastName : request.body.lastName,
                 PhoneNumber: request.body.PhoneNumber,
                 isAdmin : request.body.isAdmin,
-                password : request.body.password,}});
-        await updated.save()
+                password : request.body.password,}},
+            {$push : {
+                address : request.body.address1,
+                address : request.body.address2
+            }});
         responce.status(201).json(updated)
     }catch(err){
         responce.status(500).json({Message:`There was an ERROR Updating the user data with ID : ${request.params.id}`,Error:err});

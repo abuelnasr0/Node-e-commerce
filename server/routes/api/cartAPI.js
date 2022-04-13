@@ -17,11 +17,10 @@ router.get('/listcarts', async (requset, responce) => {
 // get cart with user id 
 router.get('/user/:userid' , async (request , responce) => {
     try{
-        const userCart = await  Cart.findOne({user : request.body.userid},function( e, d) {
+        const userCart = await  Cart.findOne({user : request.params.userid},function( e, d) {
             if (e) { console.log(e)}
             else {console.log(d)}
         });
-        // console.log(userCart._id)
         responce.status(200).json(userCart);
     }
     catch(err){
@@ -33,7 +32,7 @@ router.get('/user/:userid' , async (request , responce) => {
 // get cart with cart id 
 router.get('/:id' , async (request , responce) => {
     try{
-        const userCart = await  Cart.findById(request.body.id);
+        const userCart = await  Cart.findById(request.params.id);
         console.log(userCart)
         responce.status(200).json(userCart);
     }
@@ -45,8 +44,7 @@ router.get('/:id' , async (request , responce) => {
 
 router.get('/:id/items' , async (request , responce) => {
     try{
-        const userCart = await  Cart.findById(request.body.id);
-        console.log(userCart.products)
+        const userCart = await  Cart.findById(request.params.id);
         responce.status(200).json(userCart.products);
     }
     catch(err){
@@ -66,7 +64,6 @@ router.post('/create' , async(request,responce) => {
 
 })
 
-// not tested yet
 router.put('/add/:id' , async (request,responce) => {
     try{
         const newItem = new CartItem(
@@ -80,14 +77,9 @@ router.put('/add/:id' , async (request,responce) => {
         console.log(newItem)
         const updated = await Cart.updateOne(
             {_id : request.params.id},
-             { $set: {
-                products : products.push(newItem)}}, (err,data)=>{
-                    if (err) console.log(err)
-                    else console.log(data)
-                });
-                // products : products.push(newItem)}});
+             { $push: {
+                products : newItem}});
         console.log(updated)
-        await updated.save()
         responce.status(201).json(updated)
     }catch(err){
         responce.status(500).json({Message:`There was an ERROR Adding the item`,Error:err});
